@@ -34,13 +34,15 @@ This is a Django-based web application that allows users to get current weather 
 
 3. Install the required packages:
 
-    ```pip install -r requirements.txt
+    ```sh
+    pip install -r requirements.txt
     ```
 4. Set up the database:
 
-    ```python manage.py migrate
+    ```sh
+    python manage.py migrate
     ```
-5. Get an API key from OpenWeatherMap by signing up at [https://home.openweathermap.org/users/sign_up](https://home.openweathermap.org/users/sign_up).
+5. Get an API key from OpenWeatherMap by signing up at [OpenWeatherMap](https://home.openweathermap.org/users/sign_up).
 
     ** For now, you can use the API key provided in the settings.py file. **
 
@@ -49,11 +51,12 @@ This is a Django-based web application that allows users to get current weather 
 
 7. Run the development server:
 
-    ```python manage.py runserver
+    ```sh
+    python manage.py runserver
     ```
 8. Access the application:
     
-        Open a web browser and go to [http://127.0.0.1:8000/
+        Open the web browser and go to [http://127.0.0.1:8000/
 
 ## Acknowlwgement
 
