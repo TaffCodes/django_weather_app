@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyWeatherApp</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #007acc;
+        }
+        form {
+            margin-top: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 1em;
+            width: 80%;
+            max-width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #007acc;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #005fa3;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+
+        /* Weather display styling */
+        .weather {
+            margin-top: 20px;
+            background-color: #e6f7ff;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        .weather img {
+            width: 50px;
+            height: 50px;
+        }
+        .weather p {
+            margin: 5px 0;
+        }
+
+        /* Search history styling */
+        .history {
+            margin-top: 30px;
+            text-align: left;
+        }
+        .history h3 {
+            color: #007acc;
+        }
+        .history ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .history li {
+            padding: 5px 0;
+            font-size: 0.9em;
+        }
+        .history-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .history-table th, .history-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: justify;
+    }
+
+    .history-table th {
+        background-color: #e6f7ff;
+        text-align: center;
+    }
+
+    .history-table tr.odd {
+        background-color: #e6f7ff;
+    }
+
+    .history-table tr.even {
+        background-color: #ffffff;
+    }
+
+    .history-table tr:hover {
+        background-color: #ddd;
+    }
+
+        /* Responsive styling */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            input[type="text"] {
+                width: 100%;
+            }
+            .weather p {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>MyWeatherApp</h1>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="city" placeholder="Enter city name" required>
+            <button type="submit">Search</button>
+        </form>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+        
+        {% if weather_data %}
+            <div class="weather">
+                <h2>{{ weather_data.city }}</h2>
+                <p>Temperature: {{ weather_data.temperature }} °C</p>
+                <p>Humidity: {{ weather_data.humidity }}%</p>
+                <p>Conditions: {{ weather_data.description }}</p>
+                <p>Wind Speed: {{ weather_data.wind_speed }} m/s</p>
+                <p>Visibility: {{ weather_data.visibility }} m</p>
+                <p>Sunrise: {{ weather_data.sunrise }}</p>
+                <p>Sunset: {{ weather_data.sunset }}</p>
+                <img src="http://openweathermap.org/img/w/{{ weather_data.icon }}.png" alt="Weather icon">
+            </div>
+        {% endif %}
+
+        <div class="history">
+            <h3>Search History</h3>
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>City</th>
+                        <th>Search Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in history %}
+                        <tr class="{% cycle 'odd' 'even' %}">
+                            <td>{{ entry.city }}</td>
+                            <td>{{ entry.search_date|date:"Y-m-d H:i" }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
